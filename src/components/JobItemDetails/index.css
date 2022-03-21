@@ -1,0 +1,27 @@
+.jobs-item-details-container {
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px;
+}
+
+.failure-container {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.failure-image {
+  width: 50%;
+}
+
+.retry-button {
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
