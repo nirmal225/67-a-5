@@ -16,7 +16,7 @@ const JobItemCard = props => {
   } = jobDetails
 
   return (
-    <Link to={`/jobs/:${id}`} className="link-item">
+    <Link to={`/jobs/${id}`} className="link-item">
       <li className="list-item-container">
         <div className="image-name-rating-container">
           <img
