@@ -59,7 +59,7 @@
 }
 
 .location-type-container {
-  width: 30%;
+  width: 40%;
   margin-bottom: 0;
   display: flex;
   align-items: center;
@@ -67,12 +67,12 @@
 }
 
 .location {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
 }
 
 .type {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
 }
 
@@ -83,6 +83,7 @@
 
 .line {
   margin-top: 0;
+  width: 100%;
 }
 
 .description-heading {

@@ -1,5 +1,8 @@
 import './index.css'
 
+import {ImLocation} from 'react-icons/im'
+import {BsBriefcaseFill} from 'react-icons/bs'
+
 import {Link} from 'react-router-dom'
 
 const JobItemCard = props => {
@@ -31,8 +34,14 @@ const JobItemCard = props => {
         </div>
         <div className="location-type-package-container">
           <div className="location-type-container">
-            <p className="location">{location}</p>
-            <p className="type">{employmentType}</p>
+            <div className="icon-container">
+              <ImLocation size={25} className="icon-image" />
+              <p className="location">{location}</p>
+            </div>
+            <div className="icon-container">
+              <BsBriefcaseFill size={25} className="icon-image" />
+              <p className="type">{employmentType}</p>
+            </div>
           </div>
           <p className="package">{packagePerAnnum}</p>
         </div>

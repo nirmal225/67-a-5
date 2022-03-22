@@ -6,6 +6,8 @@ import {AiOutlineStar} from 'react-icons/ai'
 import {BsBriefcaseFill, BsBoxArrowUpRight} from 'react-icons/bs'
 import {ImLocation} from 'react-icons/im'
 
+import SimilarJobCard from '../SimilarJobCard'
+import SkillsCard from '../SkillsCard'
 import Header from '../Header'
 
 const apiStatusConstants = {
@@ -28,10 +30,12 @@ class JobItemDetails extends Component {
 
   getSimilarJobsData = data => ({
     companyLogoUrl: data.company_logo_url,
-    companyWebsiteUrl: data.company_website_url,
+    employmentType: data.employment_type,
     id: data.id,
     jobDescription: data.job_description,
     location: data.location,
+    rating: data.rating,
+    title: data.title,
   })
 
   getFormattedSkillData = data => ({
@@ -45,7 +49,10 @@ class JobItemDetails extends Component {
     employmentType: data.employment_type,
     id: data.id,
     jobDescription: data.job_description,
-    lifeAtCompany: data.life_at_company,
+    lifeAtCompany: {
+      description: data.life_at_company.description,
+      imageUrl: data.life_at_company.image_url,
+    },
     location: data.location,
     packagePerAnnum: data.package_per_annum,
     rating: data.rating,
@@ -72,9 +79,12 @@ class JobItemDetails extends Component {
     const response = await fetch(jobDetailsApiUrl, options)
     const data = await response.json()
     const updatedData = this.getJobDetailsFormattedData(data.job_details)
+    console.log(data)
     const updatedSimilarJobs = data.similar_jobs.map(eachSimilarJob =>
       this.getSimilarJobsData(eachSimilarJob),
     )
+    console.log(updatedSimilarJobs)
+
     if (response.ok === true) {
       this.setState({
         apiStatus: apiStatusConstants.success,
@@ -94,7 +104,7 @@ class JobItemDetails extends Component {
   }
 
   renderSuccessView = () => {
-    const {jobDetails} = this.state
+    const {jobDetails, similarJobs} = this.state
     const {
       companyLogoUrl,
       companyWebsiteUrl,
@@ -108,46 +118,73 @@ class JobItemDetails extends Component {
       skills,
       title,
     } = jobDetails
+    const {description, imageUrl} = lifeAtCompany
     return (
-      <div className="success-container">
-        <div className="company-image-name-rating-container">
-          <img
-            alt="company logo"
-            className="job-details-company-image"
-            src={companyLogoUrl}
-          />
-          <div className="name-rating-container">
-            <h1 className="title-heading">{title}</h1>
-            <div className="star-icon-container">
-              <AiOutlineStar size={25} className="star-icon" />
-              <h1 className="rating-heading">{rating}</h1>
+      <div className="success-details-container">
+        <div className="success-container">
+          <div className="company-image-name-rating-container">
+            <img
+              alt="company logo"
+              className="job-details-company-image"
+              src={companyLogoUrl}
+            />
+            <div className="name-rating-container">
+              <h1 className="title-heading">{title}</h1>
+              <div className="star-icon-container">
+                <AiOutlineStar size={25} className="star-icon" />
+                <h1 className="rating-heading">{rating}</h1>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="location-type-package-container">
-          <div className="location-type-container">
+          <div className="job-location-type-package-container">
+            <div className="location-type-container">
+              <div className="icon-container">
+                <ImLocation size={25} className="icon-image" />
+                <p className="location">{location}</p>
+              </div>
+              <div className="icon-container">
+                <BsBriefcaseFill size={25} className="icon-image" />
+                <p className="type">{employmentType}</p>
+              </div>
+            </div>
+            <p className="package">{packagePerAnnum}</p>
+          </div>
+          <hr className="break-line" />
+          <div className="description-visit-container">
+            <h1 className="job-description-heading">Description</h1>
             <div className="icon-container">
-              <ImLocation size={25} className="icon-image" />
-              <p className="location">{location}</p>
-            </div>
-            <div className="icon-container">
-              <BsBriefcaseFill size={25} className="icon-image" />
-              <p className="type">{employmentType}</p>
+              <h1 className="visit">Visit</h1>
+              <BsBoxArrowUpRight size={25} className="visit-icon-image" />
             </div>
           </div>
-          <p className="package">{packagePerAnnum}</p>
-        </div>
-        <hr className="break-line" />
-        <div className="description-visit-container">
-          <h1 className="job-description-heading">Description</h1>
-          <div className="icon-container">
-            <h1 className="visit">Visit</h1>
-            <BsBoxArrowUpRight size={25} className="visit-icon-image" />
+          <div>
+            <p className="job-description">{jobDescription}</p>
+          </div>
+          <h1 className="skills-heading">Skills</h1>
+          <ul className="skills-list-container">
+            {skills.map(eachSkill => (
+              <SkillsCard skillsDetails={eachSkill} key={eachSkill.name} />
+            ))}
+          </ul>
+          <h1 className="life-at-company-heading">Life at Company</h1>
+          <div className="life-company-container">
+            <p className="description-paragraph">{description}</p>
+            <img
+              src={imageUrl}
+              className="website-image"
+              alt="company-website"
+            />
           </div>
         </div>
-        <div>
-          <p className="job-description">{jobDescription}</p>
-        </div>
+        <h1>Similar Jobs</h1>
+        <ul className="similar-jobs-list-container">
+          {similarJobs.map(eachSimilarJob => (
+            <SimilarJobCard
+              similarJobDetails={eachSimilarJob}
+              key={eachSimilarJob.id}
+            />
+          ))}
+        </ul>
       </div>
     )
   }
