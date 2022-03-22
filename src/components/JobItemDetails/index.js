@@ -124,7 +124,7 @@ class JobItemDetails extends Component {
         <div className="success-container">
           <div className="company-image-name-rating-container">
             <img
-              alt="company logo"
+              alt="job details company logo"
               className="job-details-company-image"
               src={companyLogoUrl}
             />
